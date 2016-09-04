@@ -1,44 +1,73 @@
-# python-getting-started
+# Install external
 
-A barebones Python app, which can easily be deployed to Heroku.
+### Install GIT
+https://git-scm.com/download/win
+### Install SourceTree
+https://www.sourcetreeapp.com/
+### Install Python 2.7
+http://docs.python-guide.org/en/latest/starting/install/win/
+### Install Heroku CLI
+https://devcenter.heroku.com/articles/heroku-command-line
+### Install Visual Studio Code
+https://code.visualstudio.com/
 
-This application supports the [Getting Started with Python on Heroku](https://devcenter.heroku.com/articles/getting-started-with-python) article - check it out.
+## Prepare  backend
+    
+    $ git clone https://github.com/heroku/python-getting-started.git  myproject
+    $ cd myproject
+    $ pip install virtualenv
+    $ virtualenv venv
+    $ venv\Scripts\activate
+    $ pip install -r requirements.txt
+    $ python manage.py migrate
+    $ python manage.py collectstatic
+    $ pip install djangorestframework
+    $ pip install markdown
+    $ pip install django-filter
+    $ pip freeze > requirements.txt
 
-## Running Locally
+### Update gettingstared/urls.py to
 
-Make sure you have Python [installed properly](http://install.python-guide.org).  Also, install the [Heroku Toolbelt](https://toolbelt.heroku.com/) and [Postgres](https://devcenter.heroku.com/articles/heroku-postgresql#local-setup).
+    from django.conf.urls import include, url
 
-```sh
-$ git clone git@github.com:heroku/python-getting-started.git
-$ cd python-getting-started
+    from django.contrib.auth.models import User
+    from rest_framework import routers, serializers, viewsets
 
-$ pip install -r requirements.txt
+    from django.contrib import admin
+    admin.autodiscover()
 
-$ createdb python_getting_started
+    import hello.views
 
-$ python manage.py migrate
-$ python manage.py collectstatic
+    # Examples:
+    # url(r'^$', 'gettingstarted.views.home', name='home'),
+    # url(r'^blog/', include('blog.urls')),
 
-$ heroku local
-```
+    # Serializers define the API representation.
+    class UserSerializer(serializers.HyperlinkedModelSerializer):
+        class Meta:
+            model = User
+            fields = ('url', 'username', 'email', 'is_staff')
 
-Your app should now be running on [localhost:5000](http://localhost:5000/).
+    # ViewSets define the view behavior.
+    class UserViewSet(viewsets.ModelViewSet):
+        queryset = User.objects.all()
+        serializer_class = UserSerializer
 
-## Deploying to Heroku
+    # Routers provide an easy way of automatically determining the URL conf.
+    router = routers.DefaultRouter()
+    router.register(r'users', UserViewSet)
 
-```sh
-$ heroku create
-$ git push heroku master
+    urlpatterns = [
+        url(r'^$', hello.views.index, name='index'),
+        url(r'^db', hello.views.db, name='db'),
+        url(r'^admin/', include(admin.site.urls)),
+        url(r'^api/', include(router.urls)),
+        url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
+    ]
 
-$ heroku run python manage.py migrate
-$ heroku open
-```
-or
+### Start server
 
-[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
-
-## Documentation
-
-For more information about using Python on Heroku, see these Dev Center articles:
-
-- [Python on Heroku](https://devcenter.heroku.com/categories/python)
+    $ venv\Scripts\activate
+    $ python manage.py migrate
+    $ python manage.py collectstatic
+    $ python manage.py runserver 0.0.0.0:5000
