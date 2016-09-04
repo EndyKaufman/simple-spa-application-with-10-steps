@@ -26,7 +26,7 @@ https://code.visualstudio.com/
     $ pip install django-filter
     $ pip freeze > requirements.txt
 
-### Update gettingstared/urls.py to
+### Update gettingstarted/urls.py to
 
     from django.conf.urls import include, url
 
