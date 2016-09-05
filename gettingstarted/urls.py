@@ -1,3 +1,6 @@
+from django.conf.urls.static import static
+from django.conf import settings
+
 from django.conf.urls import include, url
 
 from django.contrib.auth.models import User
@@ -34,3 +37,8 @@ urlpatterns = [
 	url(r'^api/', include(router.urls)),
 	url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]
+
+if settings.DEBUG:
+    urlpatterns += static('/css/', document_root='gettingstarted/staticfiles/css/')
+    urlpatterns += static('/img/', document_root='gettingstarted/staticfiles/img/')
+    urlpatterns += static('/js/', document_root='gettingstarted/staticfiles/js/')

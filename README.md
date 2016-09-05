@@ -1,44 +1,152 @@
-# python-getting-started
+# Install external
 
-A barebones Python app, which can easily be deployed to Heroku.
+## Install GIT
+https://git-scm.com/download/win
+## Install SourceTree
+https://www.sourcetreeapp.com/
+## Install Visual Studio Code
+https://code.visualstudio.com/
 
-This application supports the [Getting Started with Python on Heroku](https://devcenter.heroku.com/articles/getting-started-with-python) article - check it out.
+# Prepare backend
 
-## Running Locally
+## Install external
 
-Make sure you have Python [installed properly](http://install.python-guide.org).  Also, install the [Heroku Toolbelt](https://toolbelt.heroku.com/) and [Postgres](https://devcenter.heroku.com/articles/heroku-postgresql#local-setup).
+### Install Python 2.7
+http://docs.python-guide.org/en/latest/starting/install/win/
+### Install Heroku CLI
+https://devcenter.heroku.com/articles/heroku-command-line
 
-```sh
-$ git clone git@github.com:heroku/python-getting-started.git
-$ cd python-getting-started
+## Install
 
-$ pip install -r requirements.txt
+    $ git clone https://github.com/heroku/python-getting-started.git  myproject
+    $ cd myproject
+    $ pip install virtualenv
+    $ virtualenv venv
+    $ source venv/Scripts/activate
+    $ pip install -r requirements.txt
+    $ python manage.py migrate
+    $ python manage.py collectstatic --noinput
+    $ pip install djangorestframework
+    $ pip install markdown
+    $ pip install django-filter
+    $ pip freeze > requirements.txt
 
-$ createdb python_getting_started
+## Update gettingstarted/urls.py to
 
-$ python manage.py migrate
-$ python manage.py collectstatic
+    from django.conf.urls import include, url
 
-$ heroku local
-```
+    from django.contrib.auth.models import User
+    from rest_framework import routers, serializers, viewsets
 
-Your app should now be running on [localhost:5000](http://localhost:5000/).
+    from django.contrib import admin
+    admin.autodiscover()
 
-## Deploying to Heroku
+    import hello.views
 
-```sh
-$ heroku create
-$ git push heroku master
+    # Examples:
+    # url(r'^$', 'gettingstarted.views.home', name='home'),
+    # url(r'^blog/', include('blog.urls')),
 
-$ heroku run python manage.py migrate
-$ heroku open
-```
-or
+    # Serializers define the API representation.
+    class UserSerializer(serializers.HyperlinkedModelSerializer):
+        class Meta:
+            model = User
+            fields = ('url', 'username', 'email', 'is_staff')
 
-[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
+    # ViewSets define the view behavior.
+    class UserViewSet(viewsets.ModelViewSet):
+        queryset = User.objects.all()
+        serializer_class = UserSerializer
 
-## Documentation
+    # Routers provide an easy way of automatically determining the URL conf.
+    router = routers.DefaultRouter()
+    router.register(r'users', UserViewSet)
 
-For more information about using Python on Heroku, see these Dev Center articles:
+    urlpatterns = [
+        url(r'^$', hello.views.index, name='index'),
+        url(r'^db', hello.views.db, name='db'),
+        url(r'^admin/', include(admin.site.urls)),
+        url(r'^api/', include(router.urls)),
+        url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
+    ]
 
-- [Python on Heroku](https://devcenter.heroku.com/categories/python)
+## Start server
+
+    $ source venv/Scripts/activate
+    $ python manage.py migrate
+    $ python manage.py collectstatic --noinput
+    $ python manage.py runserver 0.0.0.0:5000
+
+# Prepare frontend
+
+## Install external
+
+### Install NodeJS 6
+https://nodejs.org/en/
+
+## Install
+
+    $ cd myproject
+    $ git clone https://github.com/preboot/angular2-webpack.git frontend
+    $ cd frontend
+    $ npm install
+    $ rmdir .git /s /q
+
+## Remove all ".[hash]" usage in webpack.config.json
+
+## Append new task in scripts section on package.json
+    
+    "scripts": {
+        ...
+        "copy-to-backend": "rimraf ../gettingstarted/static && cp -r dist ../gettingstarted/static && cp -r dist/index.html ../hello/templates",
+        "copy-index-to-backend": "cp -r dist/index.html ../hello/templates",
+        "build-to-backend": "npm run build && npm run copy-to-backend"
+    }
+
+## Run standalone frontend application
+
+    $ npm start #start server on http://localhost:8080
+
+## Run frontend application from backend 
+
+### Build and copy frontend files to backend
+
+    $ npm run build-to-backend
+    $ npm run copy-index-to-backend 
+
+### Update hello/templates/index.html with special template tags
+
+    <!doctype html>
+    <html>
+    <head>
+    {% load staticfiles %}
+    <meta charset="utf-8">
+    <title>Angular 2 App | ng2-webpack</title>
+    <link rel="icon" type="image/x-icon" href="{% static '/img/favicon.ico' %}">
+    <base href="/">
+    <link href="{% static '/css/app.css' %}" rel="stylesheet">
+    </head>
+    <body>
+    <my-app>Loading...</my-app>
+    <script type="text/javascript" src="{% static '/js/polyfills.js' %}"></script>
+    <script type="text/javascript" src="{% static '/js/vendor.js' %}"></script>
+    <script type="text/javascript" src="{% static '/js/app.js' %}"></script></body>
+    </html>
+
+### Update gettingstarted/urls.py to
+
+    from django.conf.urls.static import static
+    from django.conf import settings
+    ...
+    if settings.DEBUG:
+        urlpatterns += static('/css/', document_root='gettingstarted/staticfiles/css/')
+        urlpatterns += static('/img/', document_root='gettingstarted/staticfiles/img/')
+        urlpatterns += static('/js/', document_root='gettingstarted/staticfiles/js/')
+
+### Run backend server
+
+    $ cd ../
+    $ source venv/Scripts/activate
+    $ python manage.py migrate
+    $ python manage.py collectstatic --noinput
+    $ python manage.py runserver 0.0.0.0:5000
