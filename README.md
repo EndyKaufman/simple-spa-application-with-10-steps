@@ -1,32 +1,37 @@
 # Install external
 
-### Install GIT
+## Install GIT
 https://git-scm.com/download/win
-### Install SourceTree
+## Install SourceTree
 https://www.sourcetreeapp.com/
+## Install Visual Studio Code
+https://code.visualstudio.com/
+
+# Prepare backend
+
+## Install external
+
 ### Install Python 2.7
 http://docs.python-guide.org/en/latest/starting/install/win/
 ### Install Heroku CLI
 https://devcenter.heroku.com/articles/heroku-command-line
-### Install Visual Studio Code
-https://code.visualstudio.com/
 
-## Prepare  backend
-    
+## Install
+
     $ git clone https://github.com/heroku/python-getting-started.git  myproject
     $ cd myproject
     $ pip install virtualenv
     $ virtualenv venv
-    $ venv\Scripts\activate
+    $ source venv/Scripts/activate
     $ pip install -r requirements.txt
     $ python manage.py migrate
-    $ python manage.py collectstatic
+    $ python manage.py collectstatic --noinput
     $ pip install djangorestframework
     $ pip install markdown
     $ pip install django-filter
     $ pip freeze > requirements.txt
 
-### Update gettingstarted/urls.py to
+## Update gettingstarted/urls.py to
 
     from django.conf.urls import include, url
 
@@ -65,9 +70,83 @@ https://code.visualstudio.com/
         url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
     ]
 
-### Start server
+## Start server
 
-    $ venv\Scripts\activate
+    $ source venv/Scripts/activate
     $ python manage.py migrate
-    $ python manage.py collectstatic
+    $ python manage.py collectstatic --noinput
+    $ python manage.py runserver 0.0.0.0:5000
+
+# Prepare frontend
+
+## Install external
+
+### Install NodeJS 6
+https://nodejs.org/en/
+
+## Install
+
+    $ cd myproject
+    $ git clone https://github.com/preboot/angular2-webpack.git frontend
+    $ cd frontend
+    $ npm install
+    $ rmdir .git /s /q
+
+## Remove all ".[hash]" usage in webpack.config.json
+
+## Append new task in scripts section on package.json
+    
+    "scripts": {
+        ...
+        "copy-to-backend": "rimraf ../gettingstarted/static && cp -r dist ../gettingstarted/static && cp -r dist/index.html ../hello/templates",
+        "copy-index-to-backend": "cp -r dist/index.html ../hello/templates",
+        "build-to-backend": "npm run build && npm run copy-to-backend"
+    }
+
+## Run standalone frontend application
+
+    $ npm start #start server on http://localhost:8080
+
+## Run frontend application from backend 
+
+### Build and copy frontend files to backend
+
+    $ npm run build-to-backend
+    $ npm run copy-index-to-backend 
+
+### Update hello/templates/index.html with special template tags
+
+    <!doctype html>
+    <html>
+    <head>
+    {% load staticfiles %}
+    <meta charset="utf-8">
+    <title>Angular 2 App | ng2-webpack</title>
+    <link rel="icon" type="image/x-icon" href="{% static '/img/favicon.ico' %}">
+    <base href="/">
+    <link href="{% static '/css/app.css' %}" rel="stylesheet">
+    </head>
+    <body>
+    <my-app>Loading...</my-app>
+    <script type="text/javascript" src="{% static '/js/polyfills.js' %}"></script>
+    <script type="text/javascript" src="{% static '/js/vendor.js' %}"></script>
+    <script type="text/javascript" src="{% static '/js/app.js' %}"></script></body>
+    </html>
+
+### Update gettingstarted/urls.py to
+
+    from django.conf.urls.static import static
+    from django.conf import settings
+    ...
+    if settings.DEBUG:
+        urlpatterns += static('/css/', document_root='gettingstarted/staticfiles/css/')
+        urlpatterns += static('/img/', document_root='gettingstarted/staticfiles/img/')
+        urlpatterns += static('/js/', document_root='gettingstarted/staticfiles/js/')
+
+### Run backend server
+
+    $ cd ../
+    $ source venv/Scripts/activate
+    $ python manage.py migrate
+    $ python manage.py collectstatic --noinput
     $ python manage.py runserver 0.0.0.0:5000
