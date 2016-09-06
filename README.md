@@ -190,6 +190,10 @@ Create script "scripts/install.sh"
     curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
     sudo apt-get install -y nodejs
     sudo apt-get install npm -y
+    wget https://atom.io/download/deb
+    mv deb atom-amd64.deb  
+    dpkg -i atom-amd64.deb
+    apm install linter-tslint@0.8.3
     sudo npm update -g    
     sudo npm install -g npm
     sudo npm install -g git+https://git@github.com/gulpjs/gulp.git#4.0
