@@ -22,7 +22,8 @@
     "start": "npm run server",
     "start:hmr": "npm run server -- --hot",
     "postinstall": "npm run webdriver-update && typings install",
-    "copy-to-backend": "rimraf ../hello/static && cp -r dist ../hello/static && cp -r dist/index.html ../hello/templates",
+    "copy-to-backend": "rimraf ../gettingstarted/static && cp -r dist ../gettingstarted/static && cp -r dist/index.html ../hello/templates",
+    "copy-index-to-backend": "cp -r dist/index.html ../hello/templates",
     "build-to-backend": "npm run build && npm run copy-to-backend"
   },
   "dependencies": {
