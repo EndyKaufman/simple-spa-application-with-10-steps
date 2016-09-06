@@ -192,6 +192,7 @@ Create script "scripts/install.sh"
     sudo apt-get update
     sudo apt-get install git -y
     git --version
+    sudo apt-get install npm -y
     sudo npm update -g    
     sudo npm install -g npm
     sudo npm install -g git+https://git@github.com/gulpjs/gulp.git#4.0
@@ -241,8 +242,10 @@ Create yaml config on root folder ".travis.yml"
     install:
     - source scripts/install.sh
     script:
+    - cd ..
     - source scripts/test.sh
     after_success:
+    - cd ..
     - source scripts/deploy.sh
 
 Change deployment method on Heroku to GitHub for master branch
