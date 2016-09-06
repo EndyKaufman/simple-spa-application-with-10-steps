@@ -174,57 +174,57 @@ https://nodejs.org/en/
 
 ### Make script for run Tests
 
-Create scripts folder on root folder of project and create in file "scripts/test.sh"
+## Create scripts folder on root folder of project and create in file "scripts/test.sh"
 
-    $ python manage.py migrate
-    $ python manage.py collectstatic --noinput
-    $ python manage.py test
-    $ cd frontend
-    $ npm run test
-    $ cd ..
+    python manage.py migrate
+    python manage.py collectstatic --noinput
+    python manage.py test
+    cd frontend
+    npm run test
+    cd ..
 
-Create script "scripts/install.sh"
+## Create script "scripts/install.sh"
 
-    $ wget https://raw.githubusercontent.com/creationix/nvm/v0.31.0/nvm.sh -O ~/.nvm/nvm.sh
-    $ source ~/.nvm/nvm.sh
-    $ nvm install 6
-    $ node --version
-    $ sudo apt-get update
-    $ sudo npm update -g    
-    $ sudo npm install -g npm
-    $ sudo npm install -g git+https://git@github.com/gulpjs/gulp.git#4.0
-    $ sudo npm install -g karma-cli
-    $ sudo npm install -g npm-check-updates
-    $ sudo npm install -g bower
-    $ sudo npm install -g protractor
-    $ sudo npm install -g selenium-webdriver
-    $ sudo npm install -g typescript
-    $ sudo npm install -g tslint
-    $ sudo npm install -g node-gyp
-    $ sudo npm rebuild
-    $ sudo pip install --upgrade pip
-    $ sudo apt-get update
-    $ pip install -r requirements.txt
-    $ cd frontend
-    $ npm install
-    $ cd ..
+    wget https://raw.githubusercontent.com/creationix/nvm/v0.31.0/nvm.sh -O ~/.nvm/nvm.sh
+    source ~/.nvm/nvm.sh
+    nvm install 6
+    node --version
+    sudo apt-get update
+    sudo npm update -g    
+    sudo npm install -g npm
+    sudo npm install -g git+https://git@github.com/gulpjs/gulp.git#4.0
+    sudo npm install -g karma-cli
+    sudo npm install -g npm-check-updates
+    sudo npm install -g bower
+    sudo npm install -g protractor
+    sudo npm install -g selenium-webdriver
+    sudo npm install -g typescript
+    sudo npm install -g tslint
+    sudo npm install -g node-gyp
+    sudo npm rebuild
+    sudo pip install --upgrade pip
+    sudo apt-get update
+    pip install -r requirements.txt
+    cd frontend
+    npm install
+    cd ..
 
 ### Make script for deploy to master
 
-Create script "scripts/deploy.sh"
+## Create script "scripts/deploy.sh"
 
-    $ cd frontend
-    $ npm run build-to-backend
-    $ cd ..
-    $ git add .
-    $ git commit -am "travis ci: deploy"
-    $ git checkout master
-    $ git merge develop
-    $ git push origin master
+    cd frontend
+    npm run build-to-backend
+    cd ..
+    git add .
+    git commit -am "travis ci: deploy"
+    git checkout master
+    git merge develop
+    git push origin master
 
 ### Add config for Travis CI
 
-Create yaml config on root folder ".travis.yml"
+## Create yaml config on root folder ".travis.yml"
 
     language: python
     python:
@@ -234,8 +234,7 @@ Create yaml config on root folder ".travis.yml"
     - source scripts/install.sh
     script:
     - source scripts/test.sh
-    deploy:
-    provider: script
-    script: source scripts/deploy.sh
-    on:
-        branch: develop
+    after_success:
+    - source scripts/deploy.sh
+
+## Change deployment method on Heroku to GitHub for master branch
