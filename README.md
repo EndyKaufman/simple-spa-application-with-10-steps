@@ -90,7 +90,7 @@ https://nodejs.org/en/
     $ git clone https://github.com/preboot/angular2-webpack.git frontend
     $ cd frontend
     $ npm install
-    $ rmdir .git /s /q
+    $ rm -rf .git
 
 ## Remove all ".[hash]" usage in webpack.config.json
 
@@ -150,3 +150,50 @@ https://nodejs.org/en/
     $ python manage.py migrate
     $ python manage.py collectstatic --noinput
     $ python manage.py runserver 0.0.0.0:5000
+
+# Deploy to Heroku (or Dokku)
+
+## Create application
+
+1) Create account on http://heroku.com
+
+2) Create application on dashboard https://dashboard.heroku.com/new?org=personal-apps
+
+3) Deployment method set Heroku Git
+
+## Login and push local files to remote heroku git server
+
+    $ heroku login
+    $ heroku git:remote -a mypoject
+    $ git add .
+    $ git commit -am "push on heroku"
+    $ git push heroku master
+    $ heroku run python manage.py migrate
+
+## Tests and deploy with Travis CI
+
+### Make script for run Tests
+
+Create scripts folder on root folder of project and create in file "scripts/test.sh"
+
+    python manage.py migrate
+    python manage.py collectstatic --noinput
+    python manage.py test
+    npm run test --prefix ./frontend
+
+Create script "scripts/install.sh"
+
+    pip install -r requirements.txt
+    cd frontend
+    npm install
+    cd ..
+
+### Make script for deploy to master
+
+Create script "scripts/deploy.sh"
+
+    npm run build-to-backend --prefix ./frontend
+    git commit -am "travis ci: deploy"
+    git checkout master
+    git merge develop
+    git push origin master
