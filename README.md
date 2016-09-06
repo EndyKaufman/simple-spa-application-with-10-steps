@@ -181,7 +181,6 @@ Create scripts folder on root folder of project and create in file "scripts/test
     python manage.py test
     cd frontend
     npm run test
-    cd ..
 
 Create script "scripts/install.sh"
 
@@ -189,7 +188,10 @@ Create script "scripts/install.sh"
     source ~/.nvm/nvm.sh
     nvm install 6
     node --version
+    sudo add-apt-repository ppa:git-core/ppa -y
     sudo apt-get update
+    sudo apt-get install git -y
+    git --version
     sudo npm update -g    
     sudo npm install -g npm
     sudo npm install -g git+https://git@github.com/gulpjs/gulp.git#4.0
@@ -207,7 +209,6 @@ Create script "scripts/install.sh"
     pip install -r requirements.txt
     cd frontend
     npm install
-    cd ..
 
 ### Make script for deploy to master
 
@@ -217,12 +218,19 @@ Create script "scripts/deploy.sh"
     npm run build-to-backend
     cd ..
     git add .
-    git commit -am "travis ci: deploy"
+    git -c user.name='travis' -c user.email='travis' commit -am "travis ci: deploy"
     git checkout master
     git merge develop
-    git push origin master
+    git push -f -q https://$GITHUB_USERNAME:$GITHUB_API_KEY@github.com/$GITHUB_USERNAME/$GITHUB_PROJECT master &2>/dev/null
 
 ### Add config for Travis CI
+
+Create env vars on Travis project settings 
+on https://travis-ci.org/<username>/<project>/settings
+    
+    GITHUB_USERNAME=<username>
+    GITHUB_API_KEY=<api_key> #get on https://github.com/settings/tokens
+    GITHUB_PROJECT=<project>
 
 Create yaml config on root folder ".travis.yml"
 

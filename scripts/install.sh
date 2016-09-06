@@ -2,7 +2,10 @@ wget https://raw.githubusercontent.com/creationix/nvm/v0.31.0/nvm.sh -O ~/.nvm/n
 source ~/.nvm/nvm.sh
 nvm install 6
 node --version
+sudo add-apt-repository ppa:git-core/ppa -y
 sudo apt-get update
+sudo apt-get install git -y
+git --version
 sudo npm update -g    
 sudo npm install -g npm
 sudo npm install -g git+https://git@github.com/gulpjs/gulp.git#4.0
@@ -20,4 +23,3 @@ sudo apt-get update
 pip install -r requirements.txt
 cd frontend
 npm install
-cd ..
