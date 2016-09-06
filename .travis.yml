@@ -10,3 +10,7 @@ script:
 after_success:
 - cd ..
 - source scripts/deploy.sh
+branches:
+  only:
+    - master
+    - develop
