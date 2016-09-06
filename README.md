@@ -211,7 +211,7 @@ Create yaml config on root folder ".travis.yml"
     script:
     - source scripts/test.sh
     deploy:
-    provider: script
-    script: source scripts/deploy.sh
-    on:
-        branch: develop
+        provider: script
+        script: source scripts/deploy.sh
+        on:
+            branch: develop
