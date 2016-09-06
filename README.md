@@ -221,8 +221,9 @@ Create script "scripts/deploy.sh"
     git -c user.name='travis' -c user.email='travis' commit -am "travis ci: deploy"
     git checkout master
     git merge develop
-    git push -f -q https://$GITHUB_USERNAME:$GITHUB_API_KEY@github.com/$GITHUB_USERNAME/$GITHUB_PROJECT &2>/dev/null
-
+    git remote set-url origin https://$GITHUB_USERNAME:$GITHUB_API_KEY@github.com/$GITHUB_USERNAME/$GITHUB_PROJECT.git
+    git push origin master
+    
 ### Add config for Travis CI
 
 Create env vars on Travis project settings 
