@@ -11,8 +11,8 @@ sudo npm install -g npm-check-updates
 sudo npm install -g bower
 sudo npm install -g protractor
 sudo npm install -g selenium-webdriver
-sudo npm install -g tslint
 sudo npm install -g typescript
+sudo npm install -g tslint
 sudo npm install -g node-gyp
 sudo npm rebuild
 sudo pip install --upgrade pip
