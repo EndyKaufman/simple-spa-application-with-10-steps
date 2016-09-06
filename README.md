@@ -179,7 +179,9 @@ Create scripts folder on root folder of project and create in file "scripts/test
     python manage.py migrate
     python manage.py collectstatic --noinput
     python manage.py test
-    npm run test --prefix ./frontend
+    cd frontend
+    npm run test
+    cd ..
 
 Create script "scripts/install.sh"
 
@@ -192,7 +194,9 @@ Create script "scripts/install.sh"
 
 Create script "scripts/deploy.sh"
 
-    npm run build-to-backend --prefix ./frontend
+    cd frontend
+    npm run build-to-backend
+    cd ..
     git commit -am "travis ci: deploy"
     git checkout master
     git merge develop
