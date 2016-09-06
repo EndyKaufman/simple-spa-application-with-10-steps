@@ -1,8 +1,8 @@
+wget https://raw.githubusercontent.com/creationix/nvm/v0.31.0/nvm.sh -O ~/.nvm/nvm.sh
+source ~/.nvm/nvm.sh
+nvm install 6
+node --version
 sudo apt-get update
-sudo apt-get autoremove nodejs -y
-curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
-sudo apt-get install -y nodejs
-sudo apt-get install npm -y
 sudo npm update -g    
 sudo npm install -g npm
 sudo npm install -g git+https://git@github.com/gulpjs/gulp.git#4.0
