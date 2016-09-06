@@ -1,0 +1,13 @@
+language: python
+python:
+- '2.7'
+sudo: required
+install:
+- source scripts/install.sh
+script:
+- source scripts/test.sh
+deploy:
+  provider: script
+  script: source scripts/deploy.sh
+  on:
+    branch: develop

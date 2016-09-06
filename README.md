@@ -197,3 +197,21 @@ Create script "scripts/deploy.sh"
     git checkout master
     git merge develop
     git push origin master
+
+### Add config for Travis CI
+
+Create yaml config on root folder ".travis.yml"
+
+    language: python
+    python:
+    - '2.7'
+    sudo: required
+    install:
+    - source scripts/install.sh
+    script:
+    - source scripts/test.sh
+    deploy:
+    provider: script
+    script: source scripts/deploy.sh
+    on:
+        branch: develop
