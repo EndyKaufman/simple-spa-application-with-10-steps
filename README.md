@@ -174,7 +174,7 @@ https://nodejs.org/en/
 
 ### Make script for run Tests
 
-## Create scripts folder on root folder of project and create in file "scripts/test.sh"
+Create scripts folder on root folder of project and create in file "scripts/test.sh"
 
     python manage.py migrate
     python manage.py collectstatic --noinput
@@ -183,7 +183,7 @@ https://nodejs.org/en/
     npm run test
     cd ..
 
-## Create script "scripts/install.sh"
+Create script "scripts/install.sh"
 
     wget https://raw.githubusercontent.com/creationix/nvm/v0.31.0/nvm.sh -O ~/.nvm/nvm.sh
     source ~/.nvm/nvm.sh
@@ -211,7 +211,7 @@ https://nodejs.org/en/
 
 ### Make script for deploy to master
 
-## Create script "scripts/deploy.sh"
+Create script "scripts/deploy.sh"
 
     cd frontend
     npm run build-to-backend
@@ -224,7 +224,7 @@ https://nodejs.org/en/
 
 ### Add config for Travis CI
 
-## Create yaml config on root folder ".travis.yml"
+Create yaml config on root folder ".travis.yml"
 
     language: python
     python:
@@ -237,4 +237,4 @@ https://nodejs.org/en/
     after_success:
     - source scripts/deploy.sh
 
-## Change deployment method on Heroku to GitHub for master branch
+Change deployment method on Heroku to GitHub for master branch
