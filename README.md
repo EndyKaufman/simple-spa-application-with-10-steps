@@ -170,6 +170,15 @@ https://nodejs.org/en/
     $ git push heroku master
     $ heroku run python manage.py migrate
 
+## Run db migrations on heroku
+
+For run migrations or other shell command you most create/update file "bin/post_compile"
+
+    # !/usr/bin/env bash
+    echo "=> Performing database migrations..."
+    rm -rf db.sqlite3
+    python manage.py migrate
+
 # Tests and deploy with Travis CI
 
 ## Install external
