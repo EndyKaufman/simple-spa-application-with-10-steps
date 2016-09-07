@@ -170,9 +170,14 @@ https://nodejs.org/en/
     $ git push heroku master
     $ heroku run python manage.py migrate
 
-## Tests and deploy with Travis CI
+# Tests and deploy with Travis CI
 
-### Make script for run Tests
+## Install external
+
+### Install Ruby
+http://rubyinstaller.org/downloads/
+
+## Make script for run Tests
 
 Create scripts folder on root folder of project and create in file "scripts/test.sh"
 
@@ -210,29 +215,32 @@ Create script "scripts/install.sh"
     cd frontend
     npm install
 
-### Make script for deploy to master
+## Make script for deploy to master
 
 Create script "scripts/deploy.sh"
 
-    git remote update
-    git remote set-url origin https://$GITHUB_USERNAME:$GITHUB_API_KEY@github.com/$GITHUB_USERNAME/$GITHUB_PROJECT.git
-    git fetch
-    git checkout --track origin/master
-    cd frontend
-    npm run build-to-backend
-    cd ..
-    git add .
-    git -c user.name='travis' -c user.email='travis' commit -am "travis ci: deploy"
-    git push origin master
+    curl -o /tmp/travis-automerge https://raw.githubusercontent.com/cdown/travis-automerge/master/travis-automerge
+    chmod a+x /tmp/travis-automerge"
+    /tmp/travis-automerge
 
-### Add config for Travis CI
+## Make encrypt token for deploy with Travis
+
+Create access token on github https://github.com/settings/tokens
+
+Create encrypt token 
+
+    $ gem install travis
+    $ travis encrypt -r <username>/<project> 'GITHUB_SECRET_TOKEN=<access token>'
+
+## Add config for Travis CI
 
 Create env vars on Travis project settings 
 on https://travis-ci.org/<username>/<project>/settings
     
-    GITHUB_USERNAME=<username>
-    GITHUB_API_KEY=<api_key> #get on https://github.com/settings/tokens
-    GITHUB_PROJECT=<project>
+    secure=<encrypt token>
+    BRANCHES_TO_MERGE_REGEX=^develop
+    BRANCH_TO_MERGE_INTO=master 
+    GITHUB_REPO=<username>/<project> 
 
 Create yaml config on root folder ".travis.yml"
 
