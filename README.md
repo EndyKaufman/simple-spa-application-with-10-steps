@@ -176,7 +176,6 @@ For run migrations or other shell command you most create/update file "bin/post_
 
     # !/usr/bin/env bash
     echo "=> Performing database migrations..."
-    rm -rf db.sqlite3
     python manage.py migrate
 
 # Tests and deploy with Travis CI
