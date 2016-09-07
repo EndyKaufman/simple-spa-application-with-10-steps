@@ -159,7 +159,7 @@ https://nodejs.org/en/
 
 2) Create application on dashboard https://dashboard.heroku.com/new?org=personal-apps
 
-3) Deployment method set Heroku Git
+3) Deployment method set Heroku Git and set "Wait for CI to pass before deploy" to uncheck
 
 ## Login and push local files to remote heroku git server
 
@@ -259,7 +259,6 @@ Create yaml config on root folder ".travis.yml"
     - source scripts/deploy.sh
     branches:
     only:
-        - master
         - develop
 
 Change deployment method on Heroku to GitHub for master branch
