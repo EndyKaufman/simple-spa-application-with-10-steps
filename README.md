@@ -241,6 +241,7 @@ on https://travis-ci.org/<username>/<project>/settings
     BRANCHES_TO_MERGE_REGEX=^develop
     BRANCH_TO_MERGE_INTO=master 
     GITHUB_REPO=<username>/<project> 
+    GITHUB_SECRET_TOKEN=<access token>
 
 Create yaml config on root folder ".travis.yml"
 
