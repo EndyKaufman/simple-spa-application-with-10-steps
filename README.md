@@ -292,3 +292,66 @@ to env config on heroku, for use it you must update settings.py
     if os.environ.get('DATABASE_URL', None) is not None:
         DATABASES['default'] = dj_database_url.config(default=os.environ.get('DATABASE_URL'))
         
+Tune project for use amazone storage s3, for store static files
+
+## Install django-storages
+
+    $ source venv/Scripts/activate
+    $ pip install django-storages
+    $ pip freeze > requirements.txt
+
+Add storages to your settings.py file:
+
+    INSTALLED_APPS = (
+        ...
+        'storages',
+        ...
+    )
+
+Update settings.py
+
+    ...
+    DEBUG = os.environ.get('DEBUG', '1') == '1'
+    ...
+    # Simplified static file serving.
+    # https://warehouse.python.org/project/whitenoise/
+    if DEBUG:
+        STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+    else:
+        DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+        STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+        AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
+        AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
+        AWS_STORAGE_BUCKET_NAME = os.environ.get('S3_BUCKET_NAME')
+        AWS_PRELOAD_METADATA = True  # necessary to fix manage.py collectstatic command to only upload changed files instead of all files
+        STATIC_URL = 'http://%s.s3.amazonaws.com/%s/' % (AWS_STORAGE_BUCKET_NAME, 'static')
+
+## Create account and storage for static
+
+1) Go to url https://aws.amazon.com/ru/
+
+2) Create account
+
+3) Open https://console.aws.amazon.com/s3/home
+
+4) Create new bucket with <bucket name>
+
+5) Open properties and permissions
+
+6) Add Everyone and check "List" item
+
+## Create access tokens for access to service
+
+1) Open https://console.aws.amazon.com/iam/home#security_credential
+
+2) Click to Access Keys and click to "Create New Access Key"
+
+3) Click to "Download Key File" on modal window and it to save "rootkey.csv"
+
+## Set heroku config env
+
+    $ heroku config:set DEBUG=0
+    $ heroku config:set AWS_ACCESS_KEY_ID=<AWSAccessKeyId from rootkey.csv>
+    $ heroku config:set AWS_SECRET_ACCESS_KEY=<AWSSecretKey from rootkey.csv>
+    $ heroku config:set S3_BUCKET_NAME=<bucket name>
+
