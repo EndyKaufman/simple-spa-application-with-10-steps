@@ -160,4 +160,4 @@ else:
     AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
     AWS_STORAGE_BUCKET_NAME = os.environ.get('S3_BUCKET_NAME')
     AWS_PRELOAD_METADATA = True  # necessary to fix manage.py collectstatic command to only upload changed files instead of all files
-    STATIC_URL = 'http://%s.%s/%s/' % (AWS_STORAGE_BUCKET_NAME, AWS_S3_HOST, 'static')
+    STATIC_URL = 'http://%s.%s/' % (AWS_STORAGE_BUCKET_NAME, AWS_S3_HOST)
