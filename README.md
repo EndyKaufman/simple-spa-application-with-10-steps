@@ -298,8 +298,15 @@ Tune project for use amazone storage s3, for store static files
 
     $ source venv/Scripts/activate
     $ pip install boto
-    $ pip install django-storages
     $ pip freeze > requirements.txt
+
+Update requirements.txt
+
+    django-storages==XXX #update to -e git+https://github.com/jschneier/django-storages.git#egg=django-storages
+
+and install
+
+    pip install -r requirements.txt
 
 Add storages to your settings.py file:
 
