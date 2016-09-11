@@ -342,7 +342,7 @@ Update settings.py
 
 3) Open https://console.aws.amazon.com/s3/home
 
-4) Create new bucket with <bucket name>
+4) Create new bucket with <bucket name> and set region Frankfurt
 
 5) Open properties and permissions
 
@@ -362,4 +362,6 @@ Update settings.py
     $ heroku config:set AWS_ACCESS_KEY_ID=<AWSAccessKeyId from rootkey.csv>
     $ heroku config:set AWS_SECRET_ACCESS_KEY=<AWSSecretKey from rootkey.csv>
     $ heroku config:set S3_BUCKET_NAME=<bucket name>
+    $ heroku config:set S3_USE_SIGV4='True'
+    
 
