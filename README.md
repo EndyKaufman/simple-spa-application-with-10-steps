@@ -270,3 +270,25 @@ Create yaml config on root folder ".travis.yml"
         - develop
 
 Change deployment method on Heroku to GitHub for master branch
+
+# Use cloud database and static server
+
+## Connect Postrges
+
+After create application on heroku, heroku automatically create postgres database and save connection strings 
+to env config on heroku, for use it you must update settings.py
+
+    # Database
+    # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
+
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
+    }
+
+    # Parse database configuration from $DATABASE_URL
+    if os.environ.get('DATABASE_URL', None) is not None:
+        DATABASES['default'] = dj_database_url.config(default=os.environ.get('DATABASE_URL'))
+        
