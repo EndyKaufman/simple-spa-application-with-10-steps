@@ -383,5 +383,24 @@ Update settings.py
 ## Update index.html on gettingstarted
 
     ...
-    <base href="{% static '/' %}">
+    <base href="{{ STATIC_URL }}">
     ...
+
+## Update views.py on gettingstarted
+
+    from django.shortcuts import render
+    from django.http import HttpResponse
+    from django.conf import settings
+
+    from .models import Greeting
+
+    # Create your views here.
+    def index(request):
+        # return HttpResponse('Hello from Python!')
+        return render(request, 'index.html', {STATIC_URL: settings.STATIC_URL})
+
+    def db(request):
+        greeting = Greeting()
+        greeting.save()
+        greetings = Greeting.objects.all()
+        return render(request, 'db.html', {'greetings': greetings}) 
