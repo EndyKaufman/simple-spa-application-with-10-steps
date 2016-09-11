@@ -297,6 +297,7 @@ Tune project for use amazone storage s3, for store static files
 ## Install django-storages
 
     $ source venv/Scripts/activate
+    $ pip install boto
     $ pip install django-storages
     $ pip freeze > requirements.txt
 
