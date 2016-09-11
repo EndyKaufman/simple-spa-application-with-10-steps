@@ -351,6 +351,19 @@ Update settings.py
 
 6) Add Everyone and check "List" item
 
+7) Edit CORS configuration
+
+    <?xml version="1.0" encoding="UTF-8"?>
+    <CORSConfiguration xmlns="http://s3.amazonaws.com/doc/2006-03-01/">
+        <CORSRule>
+            <AllowedOrigin>*</AllowedOrigin>
+            <AllowedMethod>GET</AllowedMethod>
+            <AllowedMethod>POST</AllowedMethod>
+            <AllowedMethod>PUT</AllowedMethod>
+            <AllowedHeader>*</AllowedHeader>
+        </CORSRule>
+    </CORSConfiguration>
+
 ## Create access tokens for access to service
 
 1) Open https://console.aws.amazon.com/iam/home#security_credential
@@ -367,4 +380,8 @@ Update settings.py
     $ heroku config:set S3_BUCKET_NAME=<bucket name>
     $ heroku config:set S3_USE_SIGV4='True'
     
+## Update index.html on gettingstarted
 
+    ...
+    <base href="{% static '/' %}">
+    ...
