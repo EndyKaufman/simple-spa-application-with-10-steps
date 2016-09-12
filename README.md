@@ -600,3 +600,9 @@ Remove all usage hello from app/urls.py
 
     $ python manage.py collectstatic --noinput
     $ python manage.py runserver 0.0.0.0:5000    
+
+## Push repository
+
+    $ git add .
+    $ git commit -m "create master-detail tables on backend with filefield"
+    $ git push origin develop
