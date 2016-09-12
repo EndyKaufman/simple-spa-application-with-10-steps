@@ -298,11 +298,13 @@ Tune project for use amazone storage s3, for store static files
 
     $ source venv/Scripts/activate
     $ pip install boto
+    $ pip install django-cors-headers
     $ pip freeze > requirements.txt
 
 Update requirements.txt
 
-    django-storages==XXX #update to -e git+https://github.com/jschneier/django-storages.git#egg=django-storages
+    #django-storages==XXX
+    -e git+https://github.com/jschneier/django-storages.git#egg=django-storages
 
 and install
 
@@ -313,6 +315,7 @@ Add storages to your settings.py file:
     INSTALLED_APPS = (
         ...
         'storages',
+        'corsheaders',
         ...
     )
 
@@ -320,6 +323,14 @@ Update settings.py
 
     ...
     DEBUG = os.environ.get('DEBUG', '1') == '1'
+    ...
+    MIDDLEWARE_CLASSES = (
+        ...
+        'corsheaders.middleware.CorsMiddleware',
+        'django.middleware.common.CommonMiddleware',
+        ...
+    )   
+    CORS_ORIGIN_ALLOW_ALL = True 
     ...
     # http://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region
     AWS_S3_HOST = 's3.eu-central-1.amazonaws.com'
@@ -363,6 +374,25 @@ Update settings.py
             <AllowedHeader>*</AllowedHeader>
         </CORSRule>
     </CORSConfiguration>
+
+8) Open Static Website Hosting and check "Enable website hosting"
+
+Index Document: index.html
+
+Error Document: index.html
+
+Edit Redirection Rules (change projectname:
+
+    <RoutingRules>
+    <RoutingRule>
+        <Condition>
+        <KeyPrefixEquals>api/</KeyPrefixEquals>
+        </Condition>
+        <Redirect>
+        <HostName>projectname.herokuapp.com</HostName>
+        </Redirect>
+    </RoutingRule>
+    </RoutingRules> 
 
 ## Create access tokens for access to service
 

@@ -39,11 +39,13 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
 	'rest_framework',
     'storages',
+    'corsheaders',
     'hello'
 )
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -52,6 +54,8 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
 )
+
+CORS_ORIGIN_ALLOW_ALL = True 
 
 ROOT_URLCONF = 'gettingstarted.urls'
 
@@ -160,4 +164,4 @@ else:
     AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
     AWS_STORAGE_BUCKET_NAME = os.environ.get('S3_BUCKET_NAME')
     AWS_PRELOAD_METADATA = True  # necessary to fix manage.py collectstatic command to only upload changed files instead of all files
-    STATIC_URL = 'http://%s.%s/%s/' % (AWS_STORAGE_BUCKET_NAME, AWS_S3_HOST, STATIC_URL)
+    STATIC_URL = 'http://%s.%s/%s/' % (AWS_STORAGE_BUCKET_NAME, AWS_S3_HOST, 'static')
