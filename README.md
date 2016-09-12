@@ -31,6 +31,20 @@ https://devcenter.heroku.com/articles/heroku-command-line
     $ pip install django-filter
     $ pip freeze > requirements.txt
 
+## Create github repository
+
+1) Login or register on https://github.com/
+
+2) Create <github_project>
+
+3) Init repository
+
+    $ rm -rf .git
+    $ git init
+    $ git commit -m "first commit"
+    $ git remote add origin git@github.com:<github_username>/<github_project>.git
+    $ git push -u origin master
+
 ## Update gettingstarted/urls.py to
 
     from django.conf.urls import include, url
@@ -76,6 +90,12 @@ https://devcenter.heroku.com/articles/heroku-command-line
     $ python manage.py migrate
     $ python manage.py collectstatic --noinput
     $ python manage.py runserver 0.0.0.0:5000
+
+## Push repository
+
+    $ git add .
+    $ git commit -m "prepare backend"
+    $ git push -u origin master
 
 # Prepare frontend
 
@@ -150,6 +170,12 @@ https://nodejs.org/en/
     $ python manage.py migrate
     $ python manage.py collectstatic --noinput
     $ python manage.py runserver 0.0.0.0:5000
+
+## Push repository
+
+    $ git add .
+    $ git commit -m "prepare frontend"
+    $ git push -u origin master
 
 # Deploy to Heroku (or Dokku)
 
@@ -233,23 +259,23 @@ Create script "scripts/deploy.sh"
 
 ## Make encrypt token for deploy with Travis
 
-Create access token on github https://github.com/settings/tokens
+Create <access_token> on github https://github.com/settings/tokens
 
-Create encrypt token 
+Create <encrypt_token> 
 
     $ gem install travis
-    $ travis encrypt -r <username>/<project> 'GITHUB_SECRET_TOKEN=<access token>'
+    $ travis encrypt -r <github_username>/<github_project> 'GITHUB_SECRET_TOKEN=<access_token>'
 
 ## Add config for Travis CI
 
 Create env vars on Travis project settings 
-on https://travis-ci.org/<username>/<project>/settings
+on https://travis-ci.org/<github_username>/<github_project>/settings
     
     secure=<encrypt token>
     BRANCHES_TO_MERGE_REGEX=^develop
     BRANCH_TO_MERGE_INTO=master 
-    GITHUB_REPO=<username>/<project> 
-    GITHUB_SECRET_TOKEN=<access token>
+    GITHUB_REPO=<github_username>/<github_project> 
+    GITHUB_SECRET_TOKEN=<access_token>
 
 Create yaml config on root folder ".travis.yml"
 
@@ -268,6 +294,14 @@ Create yaml config on root folder ".travis.yml"
     branches:
     only:
         - develop
+
+## Push repository
+
+    $ git add .
+    $ git commit -m "prepare deploy with Travis CI"
+    $ git push -u origin master
+    $ git checkout -b develop
+    $ git push origin develop
 
 Change deployment method on Heroku to GitHub for master branch
 
@@ -417,8 +451,14 @@ Edit Redirection Rules (change projectname:
     <base href="{% static '/' %}">
     ...
 
+## Push repository
+
+    $ git add .
+    $ git commit -m "prepare AWS S3 static server"
+    $ git push origin develop
+
 ## Open you static site on amazon s3
 
 Try go to http://simple-spa-application-with-10-steps.s3-website.eu-central-1.amazonaws.com/
 
-Change name you application and region if you use another region name
+Change name you project and region if you use another region name
