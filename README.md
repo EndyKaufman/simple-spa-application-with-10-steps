@@ -521,7 +521,7 @@ Remove all usage hello from app/urls.py
         queryset = Master.objects.all()
         serializer_class = MasterSerializer
 
-# Update mypoject/views.py
+## Update mypoject/views.py
 
     from django.shortcuts import render
     # Create your views here.
@@ -545,7 +545,7 @@ Remove all usage hello from app/urls.py
         ...
     ]
     if settings.DEBUG:
-        urlpatterns += static('/images/', document_root='images/')
+        urlpatterns += static('/api/details/images/', document_root='images/')
         ...
     ...
 

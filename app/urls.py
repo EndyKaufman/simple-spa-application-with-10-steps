@@ -40,7 +40,7 @@ urlpatterns = [
 ]
 
 if settings.DEBUG:
-    urlpatterns += static('/images/', document_root='images/')
+    urlpatterns += static('/api/details/images/', document_root='images/')
     urlpatterns += static('/css/', document_root='app/staticfiles/css/')
     urlpatterns += static('/img/', document_root='app/staticfiles/img/')
     urlpatterns += static('/js/', document_root='app/staticfiles/js/')
