@@ -294,10 +294,11 @@ to env config on heroku, for use it you must update settings.py
         
 Tune project for use amazone storage s3, for store static files
 
-## Install django-storages
+## Install
 
     $ source venv/Scripts/activate
     $ pip install boto
+    $ pip install django-storages
     $ pip install django-cors-headers
     $ pip freeze > requirements.txt
 
