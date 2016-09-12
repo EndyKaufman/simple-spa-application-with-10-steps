@@ -413,24 +413,11 @@ Edit Redirection Rules (change projectname:
 ## Update index.html on gettingstarted
 
     ...
-    <base href="{{ STATIC_URL }}">
+    <base href="{% static '/' %}">
     ...
 
-## Update views.py on gettingstarted
+## Open you static site on amazon s3
 
-    from django.shortcuts import render
-    from django.http import HttpResponse
-    from django.conf import settings
+Try go to http://simple-spa-application-with-10-steps.s3-website.eu-central-1.amazonaws.com/
 
-    from .models import Greeting
-
-    # Create your views here.
-    def index(request):
-        # return HttpResponse('Hello from Python!')
-        return render(request, 'index.html', {'STATIC_URL': settings.STATIC_URL})
-
-    def db(request):
-        greeting = Greeting()
-        greeting.save()
-        greetings = Greeting.objects.all()
-        return render(request, 'db.html', {'greetings': greetings}) 
+Change name you application and region if you use another region name

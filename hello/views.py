@@ -7,7 +7,7 @@ from .models import Greeting
 # Create your views here.
 def index(request):
     # return HttpResponse('Hello from Python!')
-    return render(request, 'index.html', {'STATIC_URL': settings.STATIC_URL})
+    return render(request, 'index.html')
 
 
 def db(request):
