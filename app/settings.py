@@ -1,5 +1,5 @@
 """
-Django settings for gettingstarted project, on Heroku. For more info, see:
+Django settings for app project, on Heroku. For more info, see:
 https://github.com/heroku/heroku-django-template
 
 For more information on this file, see
@@ -40,7 +40,7 @@ INSTALLED_APPS = (
 	'rest_framework',
     'storages',
     'corsheaders',
-    'hello'
+    'myproject'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -57,7 +57,7 @@ MIDDLEWARE_CLASSES = (
 
 CORS_ORIGIN_ALLOW_ALL = True 
 
-ROOT_URLCONF = 'gettingstarted.urls'
+ROOT_URLCONF = 'app.urls'
 
 TEMPLATES = [
     {
@@ -76,7 +76,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'gettingstarted.wsgi.application'
+WSGI_APPLICATION = 'app.wsgi.application'
 
 
 # Database

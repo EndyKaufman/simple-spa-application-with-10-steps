@@ -7,12 +7,12 @@ from django.contrib.auth.models import User
 from rest_framework import routers, serializers, viewsets
 
 from django.contrib import admin
+from myproject.models import DetailViewSet, MasterViewSet
+import myproject.views
 admin.autodiscover()
 
-import hello.views
-
 # Examples:
-# url(r'^$', 'gettingstarted.views.home', name='home'),
+# url(r'^$', 'app.views.home', name='home'),
 # url(r'^blog/', include('blog.urls')),
 
 # Serializers define the API representation.
@@ -29,16 +29,18 @@ class UserViewSet(viewsets.ModelViewSet):
 # Routers provide an easy way of automatically determining the URL conf.
 router = routers.DefaultRouter()
 router.register(r'users', UserViewSet)
+router.register(r'details', DetailViewSet)
+router.register(r'masters', MasterViewSet)
 
 urlpatterns = [
-    url(r'^$', hello.views.index, name='index'),
-    url(r'^db', hello.views.db, name='db'),
+    url(r'^$', myproject.views.index, name='index'),
     url(r'^admin/', include(admin.site.urls)),
 	url(r'^api/', include(router.urls)),
 	url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]
 
 if settings.DEBUG:
-    urlpatterns += static('/css/', document_root='gettingstarted/staticfiles/css/')
-    urlpatterns += static('/img/', document_root='gettingstarted/staticfiles/img/')
-    urlpatterns += static('/js/', document_root='gettingstarted/staticfiles/js/')
+    urlpatterns += static('/images/', document_root='images/')
+    urlpatterns += static('/css/', document_root='app/staticfiles/css/')
+    urlpatterns += static('/img/', document_root='app/staticfiles/img/')
+    urlpatterns += static('/js/', document_root='app/staticfiles/js/')

@@ -336,15 +336,6 @@ Tune project for use amazone storage s3, for store static files
     $ pip install django-cors-headers
     $ pip freeze > requirements.txt
 
-Update requirements.txt
-
-    #django-storages==XXX
-    -e git+https://github.com/jschneier/django-storages.git#egg=django-storages
-
-and install
-
-    pip install -r requirements.txt
-
 Add storages to your settings.py file:
 
     INSTALLED_APPS = (
@@ -462,3 +453,150 @@ Edit Redirection Rules (change projectname:
 Try go to http://simple-spa-application-with-10-steps.s3-website.eu-central-1.amazonaws.com/
 
 Change name you project and region if you use another region name
+
+# Create simple master-detail application
+
+## Install
+
+    $ pip install Pillow
+    $ pip freeze > requirements.txt
+
+## Rename gettingstarted to app in all files and rename folder
+
+## Remove hello module
+
+Remove all usage hello from app/urls.py
+
+## Create module mypoject
+
+    $ source venv/Scripts/activate
+    $ django-admin.py startapp myproject
+
+## Update app/settings.py
+
+    ...
+    INSTALLED_APPS = (
+        'django.contrib.admin',
+        'django.contrib.auth',
+        'django.contrib.contenttypes',
+        'django.contrib.sessions',
+        'django.contrib.messages',
+        'django.contrib.staticfiles',
+        'rest_framework',
+        'storages',
+        'corsheaders',
+        'myproject'
+    )
+    ...
+
+## Update mypoject/models.py
+
+    from __future__ import unicode_literals
+    from django.db import models
+    from rest_framework import routers, serializers, viewsets
+
+    class Detail(models.Model):
+        title = models.TextField(max_length=512)
+        image = models.ImageField(upload_to='images')
+
+    class Master(models.Model):
+        title = models.TextField(max_length=512)
+        details = models.ManyToManyField(Detail, blank=True)
+
+    class DetailSerializer(serializers.HyperlinkedModelSerializer):
+        class Meta:
+            model = Detail
+            fields = ('title', 'image')
+
+    class DetailViewSet(viewsets.ModelViewSet):
+        queryset = Detail.objects.all()
+        serializer_class = DetailSerializer
+
+    class MasterSerializer(serializers.HyperlinkedModelSerializer):
+        class Meta:
+            model = Master
+            fields = ('title', 'details')
+            
+    class MasterViewSet(viewsets.ModelViewSet):
+        queryset = Master.objects.all()
+        serializer_class = MasterSerializer
+
+# Update mypoject/views.py
+
+    from django.shortcuts import render
+    # Create your views here.
+    def index(request):
+        # return HttpResponse('Hello from Python!')
+        return render(request, 'index.html')
+
+## Update app/urls.py
+
+    ...
+    from mypoject.models import DetailViewSet, MasterViewSet
+    from django.contrib import admin
+    import myproject.views
+    ...
+    router = routers.DefaultRouter()
+    router.register(r'users', UserViewSet)
+    router.register(r'details', DetailViewSet)
+    router.register(r'masters', MasterViewSet)
+    urlpatterns = [
+        url(r'^$', myproject.views.index, name='index'),
+        ...
+    ]
+    if settings.DEBUG:
+        urlpatterns += static('/images/', document_root='images/')
+        ...
+    ...
+
+## Update frontend/package.json
+
+    ...
+    "copy-to-backend": "rimraf ../app/static && cp -r dist ../app/static",
+    "copy-index-to-backend": "cp -r dist/index.html ../myproject/templates",
+    ...
+
+## Update .gitignore
+
+    ...
+    images
+
+## Make migrations
+
+    $ python manage.py makemigrations
+
+## Create superuser
+
+    $ python manage.py migrate
+    $ python manage.py createsuperuser
+
+## Build and copy frontend files to backend
+
+    $ mkdir myproject/templates
+    $ cd frontend
+    $ npm run build-to-backend
+    $ npm run copy-index-to-backend 
+
+## Update mypoject/templates/index.html with special template tags
+
+    <!doctype html>
+    <html>
+    <head>
+    {% load staticfiles %}
+    <meta charset="utf-8">
+    <title>Angular 2 App | ng2-webpack</title>
+    <link rel="icon" type="image/x-icon" href="{% static '/img/favicon.ico' %}">
+    <base href="{% static '/' %}">
+    <link href="{% static '/css/app.css' %}" rel="stylesheet">
+    </head>
+    <body>
+    <my-app>Loading...</my-app>
+    <script type="text/javascript" src="{% static '/js/polyfills.js' %}"></script>
+    <script type="text/javascript" src="{% static '/js/vendor.js' %}"></script>
+    <script type="text/javascript" src="{% static '/js/app.js' %}"></script></body>
+    </html>
+
+## Run local server
+
+    $ python manage.py collectstatic --noinput
+    $ python manage.py runserver 0.0.0.0:5000    

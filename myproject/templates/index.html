@@ -1,0 +1,19 @@
+<!doctype html>
+<html>
+
+<head>
+  {% load staticfiles %}
+  <meta charset="utf-8">
+  <title>Angular 2 App | ng2-webpack</title>
+  <link rel="icon" type="image/x-icon" href="{% static '/img/favicon.ico' %}">
+  <base href="{% static '/' %}">
+  <link href="{% static '/css/app.css' %}" rel="stylesheet">
+</head>
+
+<body>
+  <my-app>Loading...</my-app>
+  <script type="text/javascript" src="{% static '/js/polyfills.js' %}"></script>
+  <script type="text/javascript" src="{% static '/js/vendor.js' %}"></script>
+  <script type="text/javascript" src="{% static '/js/app.js' %}"></script></body>
+
+</html>
