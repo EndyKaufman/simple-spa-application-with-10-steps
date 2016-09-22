@@ -606,3 +606,30 @@ Remove all usage hello from app/urls.py
     $ git add .
     $ git commit -m "create master-detail tables on backend with filefield"
     $ git push origin develop
+
+# Create frontend code for new application on Angular Material 2
+
+## Install
+
+    $ cd frontend
+    $ npm install --save @angular2-material/core 
+    $ npm install --save @angular2-material/all
+    $ npm install --save @angular2-material/button
+    $ npm install --save @angular2-material/card
+    $ npm install --save @angular2-material/checkbox
+    $ npm install --save @angular2-material/dialog
+    $ npm install --save @angular2-material/grid-list
+    $ npm install --save @angular2-material/icon
+    $ npm install --save @angular2-material/input
+    $ npm install --save @angular2-material/list
+    $ npm install --save @angular2-material/menu
+    $ npm install --save @angular2-material/progress-bar
+    $ npm install --save @angular2-material/progress-circle
+    $ npm install --save @angular2-material/radio
+    $ npm install --save @angular2-material/sidenav
+    $ npm install --save @angular2-material/slider
+    $ npm install --save @angular2-material/slide-toggle
+    $ npm install --save @angular2-material/button-toggle
+    $ npm install --save @angular2-material/tabs
+    $ npm install --save @angular2-material/toolbar
+    $ npm install --save @angular2-material/tooltip

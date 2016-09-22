@@ -3,10 +3,10 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
 
-import { AppComponent } from './app.component';
-import { HomeComponent } from './home/home.component';
-import { AboutComponent } from './about/about.component';
-import { ApiService } from './shared';
+import declarations, { AppCmp } from './components';
+import material from './material.module';
+
+import { AppService } from './services';
 import { routing } from './app.routing';
 
 import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
@@ -16,20 +16,17 @@ import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
     BrowserModule,
     HttpModule,
     FormsModule,
-    routing
+    routing,
+    material
   ],
-  declarations: [
-    AppComponent,
-    HomeComponent,
-    AboutComponent
-  ],
+  declarations: declarations,
   providers: [
-    ApiService
+    AppService
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppCmp]
 })
 export class AppModule {
-  constructor(public appRef: ApplicationRef) {}
+  constructor(public appRef: ApplicationRef) { }
   hmrOnInit(store) {
     console.log('HMR store', store);
   }

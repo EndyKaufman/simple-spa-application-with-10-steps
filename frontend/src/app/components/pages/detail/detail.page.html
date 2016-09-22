@@ -1,0 +1,17 @@
+<md-list>
+    <md-list-item>
+        <md-input placeholder="Filter..." value="">
+        </md-input>
+        <button md-button color="primary" #mybutton (click)="sidenav.search()">Find</button>
+    </md-list-item>
+</md-list>
+<md-card *ngFor="let item of items">
+    <md-card-header>
+        <img md-card-avatar src="{{item.image}}">
+        <md-card-title>{{item.title}}</md-card-title>
+    </md-card-header>
+    <img md-card-image src="{{item.image}}">
+    <md-card-actions>
+        <button md-button (click)="delete(item)">DELETE</button>
+    </md-card-actions>
+</md-card>

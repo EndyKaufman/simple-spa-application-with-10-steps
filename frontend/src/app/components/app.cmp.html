@@ -1,0 +1,10 @@
+<md-sidenav-layout>
+  <md-sidenav #sidenavLeft>
+    <my-left-menu [items]="leftMenuItems" (onSelect)="clickLeftMenu($event, sidenavLeft, router)"></my-left-menu>
+  </md-sidenav>
+  <md-sidenav #sidenavRight align="end">
+    <my-right-menu (onSelect)="clickRightMenu($event, sidenavRight, router)"></my-right-menu>
+  </md-sidenav>
+  <my-header #header (onMenu)="showMenu(sidenavLeft)" (onAbout)="showAbout(sidenavRight)"></my-header>
+  <router-outlet #router></router-outlet>
+</md-sidenav-layout>

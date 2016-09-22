@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 from rest_framework import routers, serializers, viewsets
 
 from django.contrib import admin
-from myproject.models import DetailViewSet, MasterViewSet
+from myproject.models import DetailViewSet, MasterViewSet, DetailListView, MasterListView
 import myproject.views
 admin.autodiscover()
 
@@ -33,6 +33,8 @@ router.register(r'details', DetailViewSet)
 router.register(r'masters', MasterViewSet)
 
 urlpatterns = [
+    url(r'^details/filter/$', DetailListView.as_view()),
+    url(r'^masters/filter/$', MasterListView.as_view()),
     url(r'^$', myproject.views.index, name='index'),
     url(r'^admin/', include(admin.site.urls)),
 	url(r'^api/', include(router.urls)),
